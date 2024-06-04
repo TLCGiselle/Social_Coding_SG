@@ -9,12 +9,14 @@ let seadog;
 let squishyfont, handfont;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(1080, 1920);
   background(255);
+
 }
 
 function draw() {
   background(220);
+  
 }
 
 function preload(){
