@@ -23,15 +23,16 @@ function preload(){
   squishyfont = loadFont("SquishyGrip-Regular (2).ttf")
   handfont= loadFont('KatHandwritten-Regular (1).ttf')
   }
-  
+
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(1080, 1920);
   background(255);
+
 }
 
 function draw() {
-  background(220,0,0);
-
+  background(220);
+  
 }
 
 
