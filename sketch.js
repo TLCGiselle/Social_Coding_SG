@@ -22,7 +22,7 @@ function preload(){
   pochi= loadImage("Pochi2 (1).png")
   seadog= loadImage("Seadog2 (1).png")
   logo = loadImage("DMA98_FinalfinalSquishyGrip.png")
-  clawbod = loadImage("BoxArt.png")
+  //clawbod = loadImage("BoxArt.png")
 
   squishyfont = loadFont("SquishyGrip-Regular (2).ttf")
   handfont= loadFont('KatHandwritten-Regular (1).ttf')
