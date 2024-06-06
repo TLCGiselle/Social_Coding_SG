@@ -10,6 +10,7 @@ let currentImage;
 let logo;
 let frontlayer;
 let backlayer;
+let front_layer;
 
 //Fonts
 let squishyfont, handfont;
@@ -23,8 +24,9 @@ function preload(){
   pochi= loadImage("Pochi2 (1).png")
   seadog= loadImage("Seadog2 (1).png")
   logo = loadImage("DMA98_FinalfinalSquishyGrip.png")
-  frontlayer = loadImage("Front Layer.png")
   backlayer = loadImage("BackLayer.png")
+  front_layer= loadImage('Front_Layer.png')
+
 
   squishyfont = loadFont("SquishyGrip-Regular (2).ttf")
   handfont= loadFont('KatHandwritten-Regular (1).ttf')
@@ -43,7 +45,7 @@ function draw() {
   background(220);
 
   image(backlayer, 0, 0, 566, 780)
-  image(frontlayer, 0, 0, 566, 780)
+  image(front_layer, 0, 0, 566, 780)
   
   
   //background(,0,0);
