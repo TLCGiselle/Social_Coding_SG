@@ -42,6 +42,7 @@ function setup() {
 function draw() {
   background(220);
 
+  image(backlayer, 0, 0, 566, 780)
   image(frontlayer, 0, 0, 566, 780)
   
   
