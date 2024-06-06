@@ -5,6 +5,7 @@ let hr;
 let patchwork;
 let pochi;
 let seadog;
+let currentImage;
 
 let squishyfont, handfont;
 
@@ -12,11 +13,16 @@ function setup() {
   createCanvas(1080, 1920);
   background(255);
 
+  currentImage=patchwork;
+
+
 }
 
 function draw() {
   background(220);
   
+  
+  //background(,0,0);
 }
 
 function preload(){
