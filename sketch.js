@@ -30,8 +30,8 @@ function preload(){
 
 function setup() {
   createCanvas(1930, 2950);
-  background(225);
-
+  background(255);
+  
   currentImage=patchwork;
 
 
