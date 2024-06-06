@@ -8,6 +8,7 @@ let pochi;
 let seadog;
 let currentImage;
 let logo;
+let clawbod;
 
 //Fonts
 let squishyfont, handfont;
@@ -21,13 +22,15 @@ function preload(){
   pochi= loadImage("Pochi2 (1).png")
   seadog= loadImage("Seadog2 (1).png")
   logo = loadImage("DMA98_FinalfinalSquishyGrip.png")
+  clawbod = loadImage("BoxArt.png")
+
   squishyfont = loadFont("SquishyGrip-Regular (2).ttf")
   handfont= loadFont('KatHandwritten-Regular (1).ttf')
   }
 
 function setup() {
-  createCanvas(1080, 1920);
-  background(255);
+  createCanvas(1930, 2950);
+  background(225);
 
   currentImage=patchwork;
 
