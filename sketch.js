@@ -193,8 +193,7 @@ function startAnimation() {
     if (chosenCard !== -1) {
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
-        music.play();
-        bgmusic.stop();
+        music.play(); // Play sound effect
     }
 
     animationSpeed = controls.speedRange.value();
@@ -223,9 +222,9 @@ function changeBackgroundColor() {
 
 function toggleMusic() {
     if (musicPlaying) {
-        bgmusic.stop();
+        bgmusic.stop(); // Stop background music
     } else {
-        bgmusic.loop();
+        bgmusic.loop(); // Resume background music
     }
-    musicPlaying = !musicPlaying;
+    musicPlaying = !musicPlaying; // Toggle music state
 }
