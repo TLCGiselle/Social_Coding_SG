@@ -133,7 +133,14 @@ function draw() {
 }
 
 function startAnimation() {
+    // Hide the last chosen card if there is one
+    if (chosenCard !== -1) {
+        cards[chosenCard].display = false;
+        chosenCard = -1; // Reset chosen card
+    }
+
     controls.visible = false;
+    
     animationSpeed = controls.speedRange.value();
     intervalId = setInterval(() => {
         currentIndex = (currentIndex + 1) % cards.length;
@@ -145,7 +152,6 @@ function startAnimation() {
     
     setTimeout(stopAnimation, 3000);
 }
-
 function stopAnimation() {
     clearInterval(intervalId);
     chosenCard = Math.floor(random(cards.length));
@@ -153,3 +159,4 @@ function stopAnimation() {
     cards[chosenCard].display = true;
     controls.visible = true;
 }
+
