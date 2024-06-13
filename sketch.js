@@ -16,6 +16,8 @@ let intervalId;
 let chosenCard = -1;
 let bgc;
 let music;
+let bgmusic;
+
 
 
 function preload() {
@@ -32,14 +34,15 @@ function preload() {
     squishyfont = loadFont("SquishyGrip-Regular (2).ttf");
     handfont = loadFont('KatHandwritten-Regular (1).ttf');
     music=loadSound('magic-sparkle-190030.mp3')
+    bgmusic=loadSound("merner-pop-117203.mp3")
    
 
 }
 
 function setup() {
   createCanvas(1200, 850);
-    
-    
+  bgmusic.setVolume(1);
+  bgmusic.loop();
     
     // Creating card elements dynamically
     for (let i = 0; i < 6; i++) {
@@ -80,6 +83,7 @@ function setup() {
                 card.info = "Pochi2 (1).png";
                 break;
         }
+       
         
         cards.push(card);
     }
@@ -118,6 +122,7 @@ function setup() {
 
 function draw() {
     background(bgc);
+    
    
         
         // Calculate positions to center the images
@@ -165,6 +170,7 @@ function startAnimation() {
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
         music.play()
+        bgmusic.stop()
 
     }
 
