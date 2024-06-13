@@ -125,8 +125,6 @@ function draw() {
     // Draw backlayer image centered
     image(backlayer, backLayerX, backLayerY, 500, 700);
 
-       // QR Code
-       image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
     
     // Draw the claw following the mouse cursor within the specified rectangle
     let rectX = 385;
@@ -154,7 +152,7 @@ function draw() {
 
     // QR Code
     image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
-    
+
     // Display cards only when animation is running or a card is chosen
     if (intervalId || chosenCard !== -1) {
         for (let card of cards) {
