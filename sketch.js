@@ -35,7 +35,7 @@ function preload() {
     music = loadSound('magic-sparkle-190030.mp3');
     bgmusic = loadSound("merner-pop-117203.mp3");
     claw = loadImage("claw.png");
-    qr = loadImage("LnkBioQr.svg")
+    qr = loadImage("LnkBioQr.svg");
 }
 
 function setup() {
@@ -123,8 +123,6 @@ function draw() {
     // Draw backlayer image centered
     image(backlayer, backLayerX, backLayerY, 500, 700);
 
-    //QR Code
-    image("qr", 600, 500, 50, 50)
 
     // Draw the claw following the mouse cursor within the specified rectangle
     let rectX = 385;
@@ -147,15 +145,15 @@ function draw() {
     let frontLayerY = (height - 700) / 2;
     image(front_layer, frontLayerX, frontLayerY, 500, 700);
 
+     // QR Code
+     image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
+
     // Display cards only when animation is running or a card is chosen
     if (intervalId || chosenCard !== -1) {
         for (let card of cards) {
             if (card.display) {
                 if (card.display && chosenCard === -1)
-                image(card.image, card.x, card.y, card.w, card.h);
-
-                
-
+                    image(card.image, card.x, card.y, card.w, card.h);
             }
         }
     }
@@ -194,7 +192,6 @@ function mousePressed() {
 function startAnimation() {
     // Hide the last chosen card if there is one
     if (chosenCard !== -1) {
-       
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
         music.play(); // Play sound effect
@@ -202,7 +199,7 @@ function startAnimation() {
 
     animationSpeed = controls.speedRange.value();
     intervalId = setInterval(() => {
-        currentIndex = (currentIndex +1) % cards.length;
+        currentIndex = (currentIndex + 1) % cards.length;
         setTimeout(() => {
             cards[currentIndex].highlight = true;
         }, 1000 / animationSpeed);
