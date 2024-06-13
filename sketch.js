@@ -1,6 +1,6 @@
 let aurora, eva, habanero, hr, patchwork, pochi, seadog;
 let logo, frontlayer, backlayer, front_layer, claw;
-let squishyfont, handfont;
+let squishyfont, handfont, qr;
 
 let cards = [];
 let controls;
@@ -35,6 +35,7 @@ function preload() {
     music = loadSound('magic-sparkle-190030.mp3');
     bgmusic = loadSound("merner-pop-117203.mp3");
     claw = loadImage("claw.png");
+    qr = loadImage("LnkBioQr.svg")
 }
 
 function setup() {
@@ -121,6 +122,9 @@ function draw() {
 
     // Draw backlayer image centered
     image(backlayer, backLayerX, backLayerY, 500, 700);
+
+    //QR Code
+    image("qr", 600, 500, 50, 50)
 
     // Draw the claw following the mouse cursor within the specified rectangle
     let rectX = 385;
