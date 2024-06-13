@@ -52,7 +52,7 @@ function setup() {
             w: 100,
             h: 150,
             borderColor: 'none',
-            display: true
+            display: false // Start with cards hidden
         };
 
         switch (i) {
@@ -143,10 +143,12 @@ function draw() {
     let frontLayerY = (height - 700) / 2;
     image(front_layer, frontLayerX, frontLayerY, 500, 700);
 
-    // Display cards
-    for (let card of cards) {
-        if (card.display) {
-            image(card.image, card.x, card.y, card.w, card.h);
+    // Display cards only when animation is running or a card is chosen
+    if (intervalId || chosenCard !== -1) {
+        for (let card of cards) {
+            if (card.display) {
+                image(card.image, card.x, card.y, card.w, card.h);
+            }
         }
     }
 
@@ -158,7 +160,6 @@ function draw() {
         rect(width / 2 - 150, height / 2 - 200, 300, 400);
         image(cards[chosenCard].image, width / 2 - 150, height / 2 - 200, 300, 400);
     }
-
 }
 
 function mousePressed() {
