@@ -7,17 +7,21 @@ let cards = [];
 let cardInfo;
 let cardImage;
 let startButton;
+let startButtonImage;
 let speedRange;
 let controls;
 let animationSpeed = 5;
 let currentIndex = 0;
 let intervalId;
 let chosenCard = -1;
+let bgc;
+let music;
+
 
 function preload() {
     aurora = loadImage('Aurora2 (1).png');
     eva = loadImage("Eva2 (1).png");
-    habanero = loadImage("Habanero1.png");
+    habanero = loadImage("Habanero2 (1).png");
     hr = loadImage("HR2 (1).png");
     patchwork = loadImage("patch work.png");
     pochi = loadImage("Pochi2 (1).png");
@@ -27,11 +31,13 @@ function preload() {
     front_layer = loadImage('Front_Layer.png');
     squishyfont = loadFont("SquishyGrip-Regular (2).ttf");
     handfont = loadFont('KatHandwritten-Regular (1).ttf');
+    music=loadSound('magic-sparkle-190030.mp3')
+   
+
 }
 
 function setup() {
   createCanvas(1200, 850);
-    background(255);
     
     
     
@@ -44,8 +50,7 @@ function setup() {
             y: 400,
             w: 100,
             h: 150,
-            borderColor: 'transparent',
-            highlight: false,
+            borderColor: 'none',
             display: true
         };
         
@@ -81,20 +86,38 @@ function setup() {
 
     // Creating controls dynamically
     controls = {
-        x: width / 2 - 100,
+        x: width / 2,
         y: 800,
         speedRange: createSlider(1, 10, 5),
+        
         startButton: createButton('Start'),
+
         visible: true
     };
     
     controls.speedRange.position(controls.x, controls.y);
     controls.startButton.position(controls.x + 500, controls.y);
     controls.startButton.mousePressed(startAnimation);
+    controls.startButton.style('background-color', '#621d66'); 
+    controls.startButton.style('color','white');
+    controls.startButton.style('border','none');
+    controls.speedRange.style('background-color','#621d66')
+
+   
+    bgc= createButton('Background');
+    bgc.position(450, 800);
+    bgc.style('background-color', '#621d66');
+    bgc.style('color', 'white');
+    bgc.style('border', 'none');
+    bgc.size(100, 20);
+    bgc.mousePressed(changeBackgroundColor);
+    bgc = color(150, 25, 255);
+
+    
 }
 
 function draw() {
-    background(220);
+    background(bgc);
    
         
         // Calculate positions to center the images
@@ -114,19 +137,23 @@ function draw() {
         // ...
     
    
-    
+      
     
     // Display controls
     if (controls.visible) {
+       
         controls.speedRange.position(controls.x, controls.y);
-        controls.startButton.position(controls.x + 150, controls.y);
+         controls.startButton.position(controls.x + 150, controls.y);
+    
+       
+      
     }
     
     // Display card info
     if (chosenCard !== -1) {
         noFill();
-        stroke(1);
-        strokeWeight(1);
+        stroke(0);
+        strokeWeight(0);
         rect(width / 2 - 150, height / 2 - 200, 300, 400);
         image(cards[chosenCard].image, width / 2 - 150, height / 2 - 200, 300, 400);
     }
@@ -137,6 +164,8 @@ function startAnimation() {
     if (chosenCard !== -1) {
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
+        music.play()
+
     }
 
     controls.visible = false;
@@ -158,5 +187,8 @@ function stopAnimation() {
     cards.forEach(card => card.display = false);
     cards[chosenCard].display = true;
     controls.visible = true;
+    music.stop()
 }
-
+function changeBackgroundColor() {
+    bgc = color(random(255), random(255), random(255));
+  }
