@@ -151,6 +151,10 @@ function draw() {
     let frontLayerY = (height - 700) / 2;
     image(front_layer, frontLayerX, frontLayerY, 500, 700);
 
+
+    // QR Code
+    image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
+    
     // Display cards only when animation is running or a card is chosen
     if (intervalId || chosenCard !== -1) {
         for (let card of cards) {
