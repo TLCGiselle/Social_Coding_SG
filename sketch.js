@@ -1,14 +1,8 @@
 let aurora, eva, habanero, hr, patchwork, pochi, seadog;
-let currentImage;
-let logo, frontlayer, backlayer, front_layer;
+let logo, frontlayer, backlayer, front_layer, claw;
 let squishyfont, handfont;
 
 let cards = [];
-let cardInfo;
-let cardImage;
-let startButton;
-let startButtonImage;
-let speedRange;
 let controls;
 let animationSpeed = 5;
 let currentIndex = 0;
@@ -17,8 +11,13 @@ let chosenCard = -1;
 let bgc;
 let music;
 let bgmusic;
-
-
+let clawYOffset = 0; // Variable to track the claw's vertical offset
+let canClick = true; // Variable to control the click state
+let canMove = true; // Variable to control the claw's horizontal movement
+let musicButton; // Variable for music toggle button
+let musicPlaying = true; // Variable to track music playing state
+let showPopup = true; // Variable to control the visibility of the popup
+let popupTimer; // Timer for popup visibility
 
 function preload() {
     aurora = loadImage('Aurora2 (1).png');
@@ -33,17 +32,16 @@ function preload() {
     front_layer = loadImage('Front_Layer.png');
     squishyfont = loadFont("SquishyGrip-Regular (2).ttf");
     handfont = loadFont('KatHandwritten-Regular (1).ttf');
-    music=loadSound('magic-sparkle-190030.mp3')
-    bgmusic=loadSound("merner-pop-117203.mp3")
-   
-
+    music = loadSound('magic-sparkle-190030.mp3');
+    bgmusic = loadSound("merner-pop-117203.mp3");
+    claw = loadImage("claw.png");
 }
 
 function setup() {
-  createCanvas(1200, 850);
-  bgmusic.setVolume(1);
-  bgmusic.loop();
-    
+    createCanvas(1200, 850);
+    bgmusic.setVolume(1);
+    bgmusic.loop();
+
     // Creating card elements dynamically
     for (let i = 0; i < 6; i++) {
         let card = {
@@ -56,7 +54,7 @@ function setup() {
             borderColor: 'none',
             display: true
         };
-        
+
         switch (i) {
             case 0:
                 card.image = aurora;
@@ -83,8 +81,7 @@ function setup() {
                 card.info = "Pochi2 (1).png";
                 break;
         }
-       
-        
+
         cards.push(card);
     }
 
@@ -92,24 +89,13 @@ function setup() {
     controls = {
         x: width / 2,
         y: 800,
-        speedRange: createSlider(1, 10, 5),
-        
-        startButton: createButton('Start'),
-
-        visible: true
+        speedRange: createSlider(1, 10, 5)
     };
-    
-    controls.speedRange.position(controls.x, controls.y);
-    controls.startButton.position(controls.x + 500, controls.y);
-    controls.startButton.mousePressed(startAnimation);
-    controls.startButton.style('background-color', '#621d66'); 
-    controls.startButton.style('color','white');
-    controls.startButton.style('border','none');
-    controls.speedRange.style('background-color','#621d66')
 
-   
-    bgc= createButton('Background');
-    bgc.position(450, 800);
+    controls.speedRange.position(controls.x, controls.y);
+
+    bgc = createButton('Background');
+    bgc.position(470, 800);
     bgc.style('background-color', '#621d66');
     bgc.style('color', 'white');
     bgc.style('border', 'none');
@@ -117,43 +103,53 @@ function setup() {
     bgc.mousePressed(changeBackgroundColor);
     bgc = color(150, 25, 255);
 
-    
+    musicButton = createButton('Toggle Music');
+    musicButton.position(350, 800);
+    musicButton.style('background-color', '#621d66');
+    musicButton.style('color', 'white');
+    musicButton.style('border', 'none');
+    musicButton.size(100, 20);
+    musicButton.mousePressed(toggleMusic);
 }
 
 function draw() {
     background(bgc);
-    
-   
-        
-        // Calculate positions to center the images
-        let backLayerX = (width - 500) / 2;
-        let backLayerY = (height - 700) / 2;
-        
-        // Draw backlayer image centered
-        image(backlayer, backLayerX, backLayerY, 500, 700);
-        
-        let frontLayerX = (width - 500) / 2;
-        let frontLayerY = (height - 700) / 2;
-        
-        // Draw front_layer image centered
-        image(front_layer, frontLayerX, frontLayerY, 500, 700);
-        
-        // Display cards
-        // ...
-    
-   
-      
-    
-    // Display controls
-    if (controls.visible) {
-       
-        controls.speedRange.position(controls.x, controls.y);
-         controls.startButton.position(controls.x + 150, controls.y);
-    
-       
-      
+
+    // Calculate positions to center the images
+    let backLayerX = (width - 500) / 2;
+    let backLayerY = (height - 700) / 2;
+
+    // Draw backlayer image centered
+    image(backlayer, backLayerX, backLayerY, 500, 700);
+
+    // Draw front_layer image centered
+    let frontLayerX = (width - 500) / 2;
+    let frontLayerY = (height - 700) / 2;
+    image(front_layer, frontLayerX, frontLayerY, 500, 700);
+
+    // Draw the claw following the mouse cursor within the specified rectangle
+    let rectX = 385;
+    let rectY = 230;
+    let rectWidth = 430;
+    let rectHeight = 295;
+
+    let clawX = constrain(mouseX - 50, rectX, rectX + rectWidth - 100); // Ensure claw stays within the rectangle
+    let clawY = rectY + rectHeight - 950 + clawYOffset; // Apply the vertical offset
+    image(claw, clawX, clawY, 100, 800); // Draw the claw with the specified dimensions
+
+    // Draw the rectangle in the center of the screen
+    noFill();
+    stroke(0);
+    strokeWeight(1);
+    rect(rectX, rectY, rectWidth, rectHeight);
+
+    // Display cards
+    for (let card of cards) {
+        if (card.display) {
+            image(card.image, card.x, card.y, card.w, card.h);
+        }
     }
-    
+
     // Display card info
     if (chosenCard !== -1) {
         noFill();
@@ -162,6 +158,33 @@ function draw() {
         rect(width / 2 - 150, height / 2 - 200, 300, 400);
         image(cards[chosenCard].image, width / 2 - 150, height / 2 - 200, 300, 400);
     }
+
+}
+
+function mousePressed() {
+    let rectX = 385;
+    let rectY = 230;
+    let rectWidth = 430;
+    let rectHeight = 295;
+
+    if (canClick && mouseX > rectX && mouseX < rectX + rectWidth && mouseY > rectY && mouseY < rectY + rectHeight) {
+        canClick = false;
+        canMove = false;
+        clawYOffset += 100; // Increase the vertical offset by 100 pixels
+        setTimeout(() => {
+            clawYOffset -= 100; // Decrease the vertical offset back after 3 seconds
+            for (let card of cards) {
+                card.display = true; // Ensure all cards are displayed
+            }
+        }, 3000);
+        setTimeout(() => {
+            canClick = true; // Re-enable clicking after 5 seconds
+            canMove = true; // Re-enable horizontal movement after 5 seconds
+        }, 5000); // Changed to 5 seconds delay
+
+        // Start animation immediately when clicked
+        startAnimation();
+    }
 }
 
 function startAnimation() {
@@ -169,13 +192,10 @@ function startAnimation() {
     if (chosenCard !== -1) {
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
-        music.play()
-        bgmusic.stop()
-
+        music.play();
+        bgmusic.stop();
     }
 
-    controls.visible = false;
-    
     animationSpeed = controls.speedRange.value();
     intervalId = setInterval(() => {
         currentIndex = (currentIndex + 1) % cards.length;
@@ -184,17 +204,27 @@ function startAnimation() {
             cards[currentIndex].highlight = false;
         }, 1000 / animationSpeed);
     }, 1000 / animationSpeed);
-    
+
     setTimeout(stopAnimation, 3000);
 }
+
 function stopAnimation() {
     clearInterval(intervalId);
     chosenCard = Math.floor(random(cards.length));
     cards.forEach(card => card.display = false);
     cards[chosenCard].display = true;
-    controls.visible = true;
-    music.stop()
+    music.stop();
 }
+
 function changeBackgroundColor() {
     bgc = color(random(255), random(255), random(255));
-  }
+}
+
+function toggleMusic() {
+    if (musicPlaying) {
+        bgmusic.stop();
+    } else {
+        bgmusic.loop();
+    }
+    musicPlaying = !musicPlaying;
+}
