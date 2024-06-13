@@ -29,7 +29,7 @@ function preload() {
     seadog = loadImage("Seadog2 (1).png");
     logo = loadImage("DMA98_FinalfinalSquishyGrip.png");
     backlayer = loadImage("BackLayer.png");
-    front_layer = loadImage('Front_Layer.png');
+    front_layer = loadImage('Front Layer.png');
     squishyfont = loadFont("SquishyGrip-Regular (2).ttf");
     handfont = loadFont('KatHandwritten-Regular (1).ttf');
     music = loadSound('magic-sparkle-190030.mp3');
@@ -122,11 +122,6 @@ function draw() {
     // Draw backlayer image centered
     image(backlayer, backLayerX, backLayerY, 500, 700);
 
-    // Draw front_layer image centered
-    let frontLayerX = (width - 500) / 2;
-    let frontLayerY = (height - 700) / 2;
-    image(front_layer, frontLayerX, frontLayerY, 500, 700);
-
     // Draw the claw following the mouse cursor within the specified rectangle
     let rectX = 385;
     let rectY = 230;
@@ -142,6 +137,11 @@ function draw() {
     stroke(0);
     strokeWeight(1);
     rect(rectX, rectY, rectWidth, rectHeight);
+
+    // Draw front_layer image centered
+    let frontLayerX = (width - 500) / 2;
+    let frontLayerY = (height - 700) / 2;
+    image(front_layer, frontLayerX, frontLayerY, 500, 700);
 
     // Display cards
     for (let card of cards) {
