@@ -1,6 +1,5 @@
 let aurora, eva, habanero, hr, patchwork, pochi, seadog;
 let logo, frontlayer, backlayer, front_layer, claw;
-let squishyfont, handfont, qr;
 
 let cards = [];
 let controls;
@@ -18,6 +17,8 @@ let musicButton; // Variable for music toggle button
 let musicPlaying = true; // Variable to track music playing state
 let showPopup = true; // Variable to control the visibility of the popup
 let popupTimer; // Timer for popup visibility
+let qr;
+let clawX = 0; // Variable to store the claw's X position when clicked
 
 function preload() {
     aurora = loadImage('Aurora2 (1).png');
@@ -123,14 +124,18 @@ function draw() {
     // Draw backlayer image centered
     image(backlayer, backLayerX, backLayerY, 500, 700);
 
-
+       // QR Code
+       image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
+    
     // Draw the claw following the mouse cursor within the specified rectangle
     let rectX = 385;
     let rectY = 230;
     let rectWidth = 430;
     let rectHeight = 295;
 
-    let clawX = constrain(mouseX - 50, rectX, rectX + rectWidth - 100); // Ensure claw stays within the rectangle
+    if (canMove) {
+        clawX = constrain(mouseX - 50, rectX, rectX + rectWidth - 100); // Ensure claw stays within the rectangle
+    }
     let clawY = rectY + rectHeight - 950 + clawYOffset; // Apply the vertical offset
     image(claw, clawX, clawY, 100, 800); // Draw the claw with the specified dimensions
 
@@ -145,15 +150,12 @@ function draw() {
     let frontLayerY = (height - 700) / 2;
     image(front_layer, frontLayerX, frontLayerY, 500, 700);
 
-     // QR Code
-     image(qr, 780,710, 50, 50); // Draw the QR code at bottom right corner, 50x50 pixels
-
     // Display cards only when animation is running or a card is chosen
     if (intervalId || chosenCard !== -1) {
         for (let card of cards) {
             if (card.display) {
                 if (card.display && chosenCard === -1)
-                    image(card.image, card.x, card.y, card.w, card.h);
+                image(card.image, card.x, card.y, card.w, card.h);
             }
         }
     }
@@ -176,14 +178,14 @@ function mousePressed() {
 
     if (canClick && mouseX > rectX && mouseX < rectX + rectWidth && mouseY > rectY && mouseY < rectY + rectHeight) {
         canClick = false;
-        canMove = false;
+        canMove = false; // Disable horizontal movement
+        clawX = constrain(mouseX - 50, rectX, rectX + rectWidth - 100); // Store the claw's X position
         clawYOffset += 100; // Increase the vertical offset by 100 pixels
         setTimeout(() => {
             clawYOffset -= 100; // Decrease the vertical offset back after 3 seconds
             canClick = true; // Re-enable clicking after 3 seconds
             canMove = true; // Re-enable horizontal movement after 3 seconds
         }, 3000); // 3 seconds delay
-
         // Start animation immediately when clicked
         startAnimation();
     }
@@ -199,7 +201,7 @@ function startAnimation() {
 
     animationSpeed = controls.speedRange.value();
     intervalId = setInterval(() => {
-        currentIndex = (currentIndex + 1) % cards.length;
+        currentIndex = (currentIndex +1) % cards.length;
         setTimeout(() => {
             cards[currentIndex].highlight = true;
         }, 1000 / animationSpeed);
