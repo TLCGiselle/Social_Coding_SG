@@ -6,3 +6,72 @@ html, body {
 canvas {
   display: block;
 }
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f0f0f0;
+  position: relative;
+  height: 100vh; /* Make sure body takes the full height */
+  margin: 0;
+}
+.container {
+  margin-top: 50px;
+}
+.cards {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.card {
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  margin: 10px;
+  background-color: #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  transition: border 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  border: 3px solid transparent; /* Add a default border */
+}
+.highlight {
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.card-info {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 400px;
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+.card-info img {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+.controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+.hidden {
+  visibility: hidden;
+}
+.start-button {
+  width: 100px; /* Adjust size as needed */
+  height: 50px; /* Adjust size as needed */
+  background: url('start_button.png') no-repeat center center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
