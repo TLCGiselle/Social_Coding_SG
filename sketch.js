@@ -12,13 +12,12 @@ let controls;
 let animationSpeed = 5;
 let currentIndex = 0;
 let intervalId;
-let colors = ['red', 'green', 'blue', 'yellow', 'purple', 'orange'];
 let chosenCard = -1;
 
 function preload() {
     aurora = loadImage('Aurora2 (1).png');
     eva = loadImage("Eva2 (1).png");
-    habanero = loadImage("Habanero2 (1).png");
+    habanero = loadImage("Habanero1.png");
     hr = loadImage("HR2 (1).png");
     patchwork = loadImage("patch work.png");
     pochi = loadImage("Pochi2 (1).png");
@@ -31,7 +30,7 @@ function preload() {
 }
 
 function setup() {
-  createCanvas(500, 700);;
+  createCanvas(1200, 850);
     background(255);
     
     
@@ -79,44 +78,43 @@ function setup() {
         
         cards.push(card);
     }
-    
+
     // Creating controls dynamically
     controls = {
-        x: width / 2 - 150,
-        y: 50,
+        x: width / 2 - 100,
+        y: 800,
         speedRange: createSlider(1, 10, 5),
         startButton: createButton('Start'),
         visible: true
     };
     
     controls.speedRange.position(controls.x, controls.y);
-    controls.startButton.position(controls.x + 150, controls.y);
+    controls.startButton.position(controls.x + 500, controls.y);
     controls.startButton.mousePressed(startAnimation);
 }
 
 function draw() {
     background(220);
-    image(backlayer, 0, 0, width, height);
-    image(front_layer, 0, 0, width, height);
+   
+        
+        // Calculate positions to center the images
+        let backLayerX = (width - 500) / 2;
+        let backLayerY = (height - 700) / 2;
+        
+        // Draw backlayer image centered
+        image(backlayer, backLayerX, backLayerY, 500, 700);
+        
+        let frontLayerX = (width - 500) / 2;
+        let frontLayerY = (height - 700) / 2;
+        
+        // Draw front_layer image centered
+        image(front_layer, frontLayerX, frontLayerY, 500, 700);
+        
+        // Display cards
+        // ...
     
-    // Display cards
-    for (let i = 0; i < cards.length; i++) {
-        if (cards[i].display) {
-            stroke(cards[i].borderColor);
-            strokeWeight(3);
-            fill(200);
-            rect(cards[i].x, cards[i].y, cards[i].w, cards[i].h, 10);
-            
-            if (cards[i].highlight) {
-                noFill();
-                stroke(255, 0, 0);
-                strokeWeight(5);
-                rect(cards[i].x - 5, cards[i].y - 5, cards[i].w + 10, cards[i].h + 10, 15);
-            }
-            
-            image(cards[i].image, cards[i].x, cards[i].y, cards[i].w, cards[i].h);
-        }
-    }
+   
+    
     
     // Display controls
     if (controls.visible) {
@@ -127,8 +125,8 @@ function draw() {
     // Display card info
     if (chosenCard !== -1) {
         noFill();
-        stroke(0);
-        strokeWeight(2);
+        stroke(1);
+        strokeWeight(1);
         rect(width / 2 - 150, height / 2 - 200, 300, 400);
         image(cards[chosenCard].image, width / 2 - 150, height / 2 - 200, 300, 400);
     }
