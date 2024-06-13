@@ -1,5 +1,6 @@
 let aurora, eva, habanero, hr, patchwork, pochi, seadog;
 let logo, frontlayer, backlayer, front_layer, claw;
+let squishyfont, handfont;
 
 let cards = [];
 let controls;
