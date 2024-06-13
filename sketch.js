@@ -147,12 +147,16 @@ function draw() {
     if (intervalId || chosenCard !== -1) {
         for (let card of cards) {
             if (card.display) {
+                if (card.display && chosenCard === -1)
                 image(card.image, card.x, card.y, card.w, card.h);
+
+                
+
             }
         }
     }
 
-    // Display card info
+    // Display chosen card info if applicable
     if (chosenCard !== -1) {
         noFill();
         stroke(0);
@@ -174,14 +178,9 @@ function mousePressed() {
         clawYOffset += 100; // Increase the vertical offset by 100 pixels
         setTimeout(() => {
             clawYOffset -= 100; // Decrease the vertical offset back after 3 seconds
-            for (let card of cards) {
-                card.display = true; // Ensure all cards are displayed
-            }
-        }, 3000);
-        setTimeout(() => {
-            canClick = true; // Re-enable clicking after 5 seconds
-            canMove = true; // Re-enable horizontal movement after 5 seconds
-        }, 5000); // Changed to 5 seconds delay
+            canClick = true; // Re-enable clicking after 3 seconds
+            canMove = true; // Re-enable horizontal movement after 3 seconds
+        }, 3000); // 3 seconds delay
 
         // Start animation immediately when clicked
         startAnimation();
@@ -191,6 +190,7 @@ function mousePressed() {
 function startAnimation() {
     // Hide the last chosen card if there is one
     if (chosenCard !== -1) {
+       
         cards[chosenCard].display = false;
         chosenCard = -1; // Reset chosen card
         music.play(); // Play sound effect
@@ -198,10 +198,9 @@ function startAnimation() {
 
     animationSpeed = controls.speedRange.value();
     intervalId = setInterval(() => {
-        currentIndex = (currentIndex + 1) % cards.length;
-        cards[currentIndex].highlight = true;
+        currentIndex = (currentIndex +1) % cards.length;
         setTimeout(() => {
-            cards[currentIndex].highlight = false;
+            cards[currentIndex].highlight = true;
         }, 1000 / animationSpeed);
     }, 1000 / animationSpeed);
 
